@@ -1,23 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+
+import TaskForm from './components/TaskForm';
+import TaskList from './components/TaskList';
+
+import { useDispatch } from 'react-redux';
+// 'useDispatch' se usa para despachar un action, y por ende ejecutar un reducer que modificara el estado. 
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello world!</h1>
+      <TaskForm />
+      <TaskList />
     </div>
   );
 }
