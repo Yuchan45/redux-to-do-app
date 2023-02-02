@@ -2,9 +2,10 @@
 // Todo esto se arma siguendo el tutorial de 'redux.org'.
 // Reducers: addTask, removeTask, edittask, clearTasks, etc
 
+// Todo se realizo siguiendo el template del tutorial de redux oficial.
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = [
+let initialState = [
     {
         id: "1",
         title: "Task 1",
@@ -25,8 +26,31 @@ export const taskSlice = createSlice({
     initialState: initialState,
     reducers: {
         // Funciones para 'modificar' el estado.
+        addTask: (state, action) => {
+            // Dentro de action tengo el type y el payload(argumentos).
+            //console.log(state, action);
+            state.push(action.payload);
+            console.log(state)
+
+            return;
+        },
+        deleteTask: (state, action) => {
+            //console.log(action);
+            const id = action.payload;
+            const taskFound = state.find(task => task.id === id);
+            if (taskFound) {
+                // Remove taks from state.
+                const i = state.indexOf(taskFound);
+                state.splice(i, 1);
+            }
+            return;
+        }
 
     }
 });
+
+
+// Action creators are generated for each case reducer function
+export const { addTask, deleteTask } = taskSlice.actions;
 
 export default taskSlice.reducer

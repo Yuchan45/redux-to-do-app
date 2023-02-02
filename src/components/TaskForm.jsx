@@ -1,17 +1,81 @@
-import React from 'react'
-import { useSelector } from "react-redux";
+import { v4 as uuid } from 'uuid';
+
+import React, { useState, useEffect, useRef } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask } from '../features/tasks/taskSlice';
+import { useNavigate, useParams } from 'react-router-dom'; 
+// useNavigate: To redirect urls.  useParams: To look for params in the url.
+// Then, if there is a param, we are on the edit task form. Else, we are creating a task.
 
 function TaskForm() {
 
-    // Puedo acceder al estado 'tasks' de redux haciendo uso del useSelector...
-    // console.log("TaskForm -->");
-    // const stateTask = useSelector((state) => state.tasks);
-    // console.log(stateTask);
+    let flag = false;
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const params = useParams();
+    const tasks = useSelector((state) => state.tasks);
+    
+
+    const [task, setTask] = useState({
+        title: '',
+        description: '',
+    });
+
+    useEffect(() => {
+        // Toggles on load.
+        // Si hay que editar, traemos el objeto a editar y lo cargamos en task.
+        if (params.id) {
+            flag = true;
+            console.log(tasks)
+            const foundTask = tasks.find(task => task.id === params.id);
+            if (foundTask) {
+                setTask({
+                    ...foundTask
+                });
+            }
+        }
+
+    }, []);
+
+    function handleChange(e) {
+        // console.log(e.target.name, e.target.value);
+        // console.log(">>>: ", ...[task]);
+        if (e.target.name == "title") {
+            setTask({
+                ...task,
+                title: e.target.value
+            });
+        } else {
+            setTask({
+                ...task,
+                description: e.target.value
+            });
+        }
+        return;
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        dispatch(addTask({
+            // Copio lo que tenia y le agrego una id
+            id: uuid(),
+            ...task,
+            completed: false
+        }));
+
+        navigate('/'); // Redirect to '/'.
+        return;
+    }
 
     return (
-        <div>
-            TaskForm
-        </div>
+        <form onSubmit={handleSubmit}>
+            <input name="title" type="text" placeholder='title' onChange={handleChange} />
+            <textarea name="description" id="" cols="30" rows="10" placeholder='description' onChange={handleChange} ></textarea>
+            <button>Save</button>
+        </form>
     )
 }
 
