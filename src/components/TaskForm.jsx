@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask } from '../features/tasks/taskSlice';
+import { addTask, editTask } from '../features/tasks/taskSlice';
 import { useNavigate, useParams } from 'react-router-dom'; 
 // useNavigate: To redirect urls.  useParams: To look for params in the url.
 // Then, if there is a param, we are on the edit task form. Else, we are creating a task.
@@ -16,7 +16,7 @@ function TaskForm() {
     const navigate = useNavigate();
     const params = useParams();
     const tasks = useSelector((state) => state.tasks);
-    
+
 
     const [task, setTask] = useState({
         title: '',
@@ -59,12 +59,24 @@ function TaskForm() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        dispatch(addTask({
-            // Copio lo que tenia y le agrego una id
-            id: uuid(),
-            ...task,
-            completed: false
-        }));
+        if (params.id) {
+            // Estamos editando.
+            console.log("Editando!")
+            dispatch(editTask({
+                id: params.id,
+                ...task,
+                completed: false
+            }));
+
+        } else {
+            // Estamos creando.
+            dispatch(addTask({
+                // Copio lo que tenia y le agrego una id
+                id: uuid(),
+                ...task,
+                completed: false
+            }));
+        }
 
         navigate('/'); // Redirect to '/'.
         return;
@@ -72,8 +84,8 @@ function TaskForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input name="title" type="text" placeholder='title' onChange={handleChange} />
-            <textarea name="description" id="" cols="30" rows="10" placeholder='description' onChange={handleChange} ></textarea>
+            <input name="title" type="text" placeholder='title' onChange={handleChange} value={ (task.title != '') ? `${task.title}` : "Title"} />
+            <textarea name="description" cols="30" rows="10" placeholder='description' onChange={handleChange} value={ (task.title != '') ? `${task.description}` : "Description"} ></textarea>
             <button>Save</button>
         </form>
     )

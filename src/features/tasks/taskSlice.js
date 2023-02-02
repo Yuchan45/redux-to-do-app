@@ -4,6 +4,7 @@
 
 // Todo se realizo siguiendo el template del tutorial de redux oficial.
 import { createSlice } from '@reduxjs/toolkit'
+import { act } from 'react-dom/test-utils';
 
 let initialState = [
     {
@@ -39,18 +40,28 @@ export const taskSlice = createSlice({
             const id = action.payload;
             const taskFound = state.find(task => task.id === id);
             if (taskFound) {
-                // Remove taks from state.
+                // Remove tasks from state.
                 const i = state.indexOf(taskFound);
                 state.splice(i, 1);
             }
             return;
-        }
+        },
+        editTask: (state, action) => {
+            const editId = action.payload.id;
+            const taskFound = state.find(task => task.id === editId);
+            if (taskFound) {
+                // Edit task from state.
+                const i = state.indexOf(taskFound);
+                state[i] = action.payload;
+            }
+            return;
+        }   
 
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { addTask, deleteTask } = taskSlice.actions;
+export const { addTask, deleteTask, editTask } = taskSlice.actions;
 
 export default taskSlice.reducer
