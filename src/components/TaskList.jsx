@@ -10,7 +10,7 @@ function TaskList() {
     const dispatch = useDispatch();
 
     const tasks = useSelector((state) => state.tasks);
-    console.log(tasks);
+    // console.log(tasks);
 
     function handleDelete(id) {
 
