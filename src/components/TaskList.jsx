@@ -20,9 +20,9 @@ function TaskList() {
     }
 
     return (
-        <div className='w-4/6 bg-red-200'>
+        <div className='w-4/6'>
             <header className='flex justify-between items-center p-4'>
-                <h1>Tasks: {tasks.length}</h1>
+                <h1 className='text-xl font-bold'>Tasks: {tasks.length}</h1>
                 <Link to='/create-task' className='bg-indigo-600 px-2 py-1 rounded-md text-sm'>Create Task</Link>
             </header>
 
