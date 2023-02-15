@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addTask, editTask } from '../features/tasks/taskSlice';
@@ -42,7 +42,7 @@ function TaskForm() {
     function handleChange(e) {
         // console.log(e.target.name, e.target.value);
         // console.log(">>>: ", ...[task]);
-        if (e.target.name == "title") {
+        if (e.target.name === "title") {
             setTask({
                 ...task,
                 title: e.target.value
@@ -84,8 +84,8 @@ function TaskForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input name="title" type="text" placeholder='title' onChange={handleChange} value={ (task.title != '') ? `${task.title}` : "Title"} />
-            <textarea name="description" cols="30" rows="10" placeholder='description' onChange={handleChange} value={ (task.title != '') ? `${task.description}` : "Description"} ></textarea>
+            <input name="title" type="text" placeholder='title' onChange={handleChange} value={ (task.title !== '') ? `${task.title}` : "Title"} />
+            <textarea name="description" cols="30" rows="10" placeholder='description' onChange={handleChange} value={ (task.title !== '') ? `${task.description}` : "Description"} ></textarea>
             <button>Save</button>
         </form>
     )

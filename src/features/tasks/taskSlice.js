@@ -4,7 +4,7 @@
 
 // Todo se realizo siguiendo el template del tutorial de redux oficial.
 import { createSlice } from '@reduxjs/toolkit'
-import { act } from 'react-dom/test-utils';
+// import { act } from 'react-dom/test-utils';
 
 let initialState = [
     {
